@@ -1,2 +1,4 @@
-package com.example.gestiontrip.model;public class Voyage {
+package com.example.gestiontrip.model;
+
+public class Voyage {
 }

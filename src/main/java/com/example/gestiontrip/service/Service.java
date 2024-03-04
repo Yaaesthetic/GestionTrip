@@ -1,4 +1,4 @@
-package com.example.gestiontrip.services;
+package com.example.gestiontrip.service;
 
 public class Service {
 }

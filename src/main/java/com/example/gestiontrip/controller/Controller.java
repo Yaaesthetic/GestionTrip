@@ -1,2 +1,4 @@
-package com.example.gestiontrip.Controller;public class Controller {
+package com.example.gestiontrip.controller;
+
+public class Controller {
 }
