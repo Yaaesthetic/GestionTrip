@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -17,12 +18,12 @@ public class Voyage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id_Voyage")
-    private long idVoyage;
+    private Long idVoyage;
     @Column(name = "DateArriveeReel")
-    private Date DateArriveReel;
+    private LocalDate DateArriveReel;
     private LocalTime HereArriveReel;
-    private Date DateDepartReel;
+    private LocalDate DateDepartReel;
     private LocalTime HeureDepartReel;
-    private long idTrajetPrograme;
+    private Long idTrajetPrograme;
 
 }
