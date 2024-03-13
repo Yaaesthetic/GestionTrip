@@ -1,6 +1,6 @@
 package com.example.gestiontrip.service.impl;
 
-import com.example.gestiontrip.exception.TrajetProgrammerNotFoundException;
+import com.example.gestiontrip.exception.TrajetProgrammerExceptions;
 import com.example.gestiontrip.model.TrajetProgrammer;
 import com.example.gestiontrip.repository.TrajetProgrammerRepository;
 import com.example.gestiontrip.service.TrajetProgrammerService;
@@ -24,7 +24,7 @@ public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
         List<TrajetProgrammer> TrajetProgrammersList = new ArrayList<>();
         TrajetProgrammersIterable.forEach(TrajetProgrammersList::add);
         if (TrajetProgrammersList.isEmpty()) {
-            throw new TrajetProgrammerNotFoundException("No TrajetProgrammers found");
+            throw new TrajetProgrammerExceptions("No TrajetProgrammers found");
         }
         return TrajetProgrammersList;
     }
@@ -34,7 +34,7 @@ public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
         if (optionalTrajetProgrammer.isPresent()) {
             return optionalTrajetProgrammer.get();
         } else {
-            throw new TrajetProgrammerNotFoundException("TrajetProgrammer not found with id: " + id);
+            throw new TrajetProgrammerExceptions("TrajetProgrammer not found with id: " + id);
         }
     }
     @Override
@@ -47,14 +47,14 @@ public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
             TrajetProgrammer.setIdTrajetProgramer(id);
             return trajetProgrammerRepository.save(TrajetProgrammer);
         } else
-            throw new TrajetProgrammerNotFoundException("Unable to update. TrajetProgrammer not found with id: " + id);
+            throw new TrajetProgrammerExceptions("Unable to update. TrajetProgrammer not found with id: " + id);
     }
     @Override
     public void deleteTrajetProgrammer(Long id) {
         if (trajetProgrammerRepository.existsById(id))
             trajetProgrammerRepository.deleteById(id);
         else
-            throw new TrajetProgrammerNotFoundException("Unable to delete. TrajetProgrammer not found with ID: " + id);
+            throw new TrajetProgrammerExceptions("Unable to delete. TrajetProgrammer not found with ID: " + id);
 
     }
 }

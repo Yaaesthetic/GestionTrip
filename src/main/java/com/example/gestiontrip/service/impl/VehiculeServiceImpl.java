@@ -1,6 +1,6 @@
 package com.example.gestiontrip.service.impl;
 
-import com.example.gestiontrip.exception.VehiculeNotFoundException;
+import com.example.gestiontrip.exception.VehiculeExceptions;
 import com.example.gestiontrip.model.Vehicule;
 import com.example.gestiontrip.repository.VehiculeRepository;
 import com.example.gestiontrip.service.VehiculeService;
@@ -24,7 +24,7 @@ public class VehiculeServiceImpl implements VehiculeService {
         List<Vehicule> VehiculesList = new ArrayList<>();
         VehiculesIterable.forEach(VehiculesList::add);
         if (VehiculesList.isEmpty()) {
-            throw new VehiculeNotFoundException("No Vehicules found");
+            throw new VehiculeExceptions("No Vehicules found");
         }
         return VehiculesList;
     }
@@ -34,7 +34,7 @@ public class VehiculeServiceImpl implements VehiculeService {
         if (optionalVehicule.isPresent()) {
             return optionalVehicule.get();
         } else {
-            throw new VehiculeNotFoundException("Vehicule not found with id: " + id);
+            throw new VehiculeExceptions("Vehicule not found with id: " + id);
         }
     }
     @Override
@@ -47,14 +47,14 @@ public class VehiculeServiceImpl implements VehiculeService {
             vehicule.setIdVehicule(id);
             return VehiculeRepository.save(vehicule);
         } else
-            throw new VehiculeNotFoundException("Unable to update. Vehicule not found with id: " + id);
+            throw new VehiculeExceptions("Unable to update. Vehicule not found with id: " + id);
     }
     @Override
     public void deleteVehicule(Long id) {
         if (VehiculeRepository.existsById(id))
             VehiculeRepository.deleteById(id);
         else
-            throw new VehiculeNotFoundException("Unable to delete. Vehicule not found with ID: " + id);
+            throw new VehiculeExceptions("Unable to delete. Vehicule not found with ID: " + id);
 
     }
 }
