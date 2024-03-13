@@ -3,27 +3,26 @@ package com.example.gestiontrip.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
 @Table(name = "Voyage")
 @Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Voyage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id_Voyage")
-    private Long idVoyage;
+    private long idVoyage;
     @Column(name = "DateArriveeReel")
-    private LocalDate DateArriveReel;
+    private Date DateArriveReel;
     private LocalTime HereArriveReel;
-    private LocalDate DateDepartReel;
+    private Date DateDepartReel;
     private LocalTime HeureDepartReel;
-    private Long idTrajetPrograme;
-
 }

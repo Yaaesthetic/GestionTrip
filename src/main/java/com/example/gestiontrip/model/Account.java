@@ -3,9 +3,11 @@ package com.example.gestiontrip.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
 @Table(name = "Account")
 @Builder
 @NoArgsConstructor
@@ -18,5 +20,4 @@ public class Account extends Person{
     private String Username;
     private String Password;
     private boolean isActive;
-
 }
