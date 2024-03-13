@@ -1,6 +1,6 @@
 package com.example.gestiontrip.service.impl;
 
-import com.example.gestiontrip.exception.ConducteurNotFoundException;
+import com.example.gestiontrip.exception.ConducteurExceptions;
 import com.example.gestiontrip.model.Conducteur;
 import com.example.gestiontrip.repository.ConducteurRepository;
 import com.example.gestiontrip.service.ConducteurService;
@@ -24,7 +24,7 @@ public class ConducteurServiceImpl implements ConducteurService {
         List<Conducteur> conducteursList = new ArrayList<>();
         conducteursIterable.forEach(conducteursList::add);
         if (conducteursList.isEmpty()) {
-            throw new ConducteurNotFoundException("No conducteurs found");
+            throw new ConducteurExceptions("No conducteurs found");
         }
         return conducteursList;
     }
@@ -34,7 +34,7 @@ public class ConducteurServiceImpl implements ConducteurService {
         if (optionalConducteur.isPresent()) {
             return optionalConducteur.get();
         } else {
-            throw new ConducteurNotFoundException("Conducteur not found with id: " + id);
+            throw new ConducteurExceptions("Conducteur not found with id: " + id);
         }
     }
     @Override
@@ -47,14 +47,13 @@ public class ConducteurServiceImpl implements ConducteurService {
             conducteur.setiDConducteur(id);
             return conducteurRepository.save(conducteur);
         } else
-            throw new ConducteurNotFoundException("Unable to update. Conducteur not found with id: " + id);
+            throw new ConducteurExceptions("Unable to update. Conducteur not found with id: " + id);
     }
     @Override
     public void deleteConducteur(Long id) {
         if (conducteurRepository.existsById(id))
             conducteurRepository.deleteById(id);
         else
-            throw new ConducteurNotFoundException("Unable to delete. Conducteur not found with ID: " + id);
-
+            throw new ConducteurExceptions("Unable to delete. Conducteur not found with ID: " + id);
     }
 }
