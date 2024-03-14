@@ -6,11 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Entity
-@Table(name = "Trajet Programmer")
+@Table(name = "trajet_programmer")
 @Builder
 @Data
 @NoArgsConstructor
@@ -18,17 +18,19 @@ import java.util.Date;
 public class TrajetProgrammer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idTrajetProgramer;
-    private Date dateDepart;
+    private Long idTrajetProgrammer;
+
+    private LocalDate dateDepart;
     private LocalTime heureDepart;
-    private Date dateArrivePrevue;
-    private LocalTime heureArrivePrevue;
+    private LocalDate dateArriveePrevue;
+    private LocalTime heureArriveePrevue;
+
     private String depart;
     private String destination;
     private String typeVehicule;
     private Short nbPassagers;
     private String autresDetails;
+
     private boolean status = false;
     private Long idVehicule;
-
 }

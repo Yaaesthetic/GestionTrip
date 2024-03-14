@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "Voyage")
@@ -20,9 +20,16 @@ public class Voyage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id_Voyage")
     private long idVoyage;
-    @Column(name = "DateArriveeReel")
-    private Date DateArriveReel;
-    private LocalTime HereArriveReel;
-    private Date DateDepartReel;
-    private LocalTime HeureDepartReel;
+
+    @Column(name = "Date_Arrivee_Reelle")
+    private LocalDate dateArriveeReelle;
+
+    @Column(name = "Heure_Arrivee_Reelle")
+    private LocalTime heureArriveeReelle;
+
+    @Column(name = "Date_Depart_Reelle")
+    private LocalDate dateDepartReelle;
+
+    @Column(name = "Heure_Depart_Reelle")
+    private LocalTime heureDepartReelle;
 }

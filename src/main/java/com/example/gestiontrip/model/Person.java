@@ -6,11 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Person")
-@Builder
+@Builder(toBuilder = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,8 +19,9 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_Person")
     private Long idPerson;
-    private String Nom;
-    private String Prenom;
-    private String CIN;
-    private Date DateNaissance;
+
+    private String nom;
+    private String prenom;
+    private String cin;
+    private LocalDate dateNaissance;
 }

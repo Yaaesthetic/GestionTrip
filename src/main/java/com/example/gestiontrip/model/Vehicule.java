@@ -6,10 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Entity
-@Table(name = "Véhicule")
+@Table(name = "Vehicule")
 @Builder
 @Data
 @NoArgsConstructor
@@ -19,19 +17,29 @@ public class Vehicule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id_Vehicule")
     private Long idVehicule;
+
     @Column(name = "Immatriculation")
     private String immatriculation;
+
     @Column(name = "Marque")
     private String marque;
+
     @Column(name = "Modele")
     private String modele;
+
     @Column(name = "TypeVehicule")
-    private Date typeVehicule;
+    private String typeVehicule;
+
     @Column(name = "Kilometrage")
     private int kilometrage;
+
     @Column(name = "Disponibilite")
     private boolean disponibilite;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "TypePermisRequis")
-    private String typePermisRequis;
-    private short nbPlace ;
+    private PermisType.Type typePermisRequis;
+
+    @Column(name = "NbPlace")
+    private short nbPlace;
 }
