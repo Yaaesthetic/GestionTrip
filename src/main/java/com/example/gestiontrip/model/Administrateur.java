@@ -1,22 +1,16 @@
 package com.example.gestiontrip.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Table
+@Table(name = "Administrateur")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Administrateur extends Account{
+public class Administrateur extends Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_administrator")
-    private long idAdministrator;
-
-
+    @Column(name = "idAdministrator")
+    private Long idAdministrator;
 }

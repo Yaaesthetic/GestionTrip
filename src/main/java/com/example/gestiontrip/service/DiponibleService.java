@@ -48,7 +48,7 @@ public class DiponibleService {
         Optional<TrajetProgrammer> trajet = trajetProgrammerRepository.findById(trajetProgrammerId);
         if(trajet.isPresent()) {
             TrajetProgrammer trajetProgrammer=trajet.get();
-            if (trajetProgrammer.getDateArrivePrevue().compareTo(trajetProgrammer.getDateDepart()) > 0) {
+            if (trajetProgrammer.getDateArriveePrevue().compareTo(trajetProgrammer.getDateDepart()) > 0) {
                 rule1 = true;
             }
             Optional<Vehicule> vehicule = vehiculeRepository.findById(trajetProgrammer.getIdVehicule());

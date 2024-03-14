@@ -44,7 +44,7 @@ public class ConducteurServiceImpl implements ConducteurService {
     @Override
     public Conducteur updateConducteur(Long id, Conducteur conducteur) {
         if (conducteurRepository.existsById(id)) {
-            conducteur.setiDConducteur(id);
+            conducteur.setIdConducteur(id);
             return conducteurRepository.save(conducteur);
         } else
             throw new ConducteurExceptions("Unable to update. Conducteur not found with id: " + id);

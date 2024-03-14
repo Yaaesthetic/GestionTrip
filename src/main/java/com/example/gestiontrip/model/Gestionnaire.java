@@ -7,17 +7,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table
+@Table(name = "Gestionnaire")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Gestionnaire {
+public class Gestionnaire extends Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_gestionnaire")
-    private long idGestionnaire;
-
+    @Column(name = "id_gestionnaire")
+    private Long id;
 
 }

@@ -44,7 +44,7 @@ public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
     @Override
     public TrajetProgrammer updateTrajetProgrammer(Long id, TrajetProgrammer TrajetProgrammer) {
         if (trajetProgrammerRepository.existsById(id)) {
-            TrajetProgrammer.setIdTrajetProgramer(id);
+            TrajetProgrammer.setIdTrajetProgrammer(id);
             return trajetProgrammerRepository.save(TrajetProgrammer);
         } else
             throw new TrajetProgrammerExceptions("Unable to update. TrajetProgrammer not found with id: " + id);
