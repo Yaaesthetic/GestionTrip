@@ -3,6 +3,7 @@ package com.example.gestiontrip.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -10,8 +11,8 @@ import java.util.Date;
 @Table(name = "permis_type")
 public class PermisType {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    private Long idPermis;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
@@ -19,7 +20,7 @@ public class PermisType {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "date_delivrance")
-    private Date dateDelivrance;
+    private LocalDate dateDelivrance;
 
     @ManyToOne
     @JoinColumn(name = "conducteur_id")
