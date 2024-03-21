@@ -1,6 +1,5 @@
 package com.example.gestiontrip.repository;
 
-import com.example.gestiontrip.model.Account;
 import com.example.gestiontrip.model.Voyage;
 import org.springframework.data.repository.CrudRepository;
 

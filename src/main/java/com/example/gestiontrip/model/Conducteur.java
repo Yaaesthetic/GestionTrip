@@ -3,24 +3,30 @@ package com.example.gestiontrip.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Conducteur")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Conducteur extends Account {
+public class Conducteur {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IDConducteur")
+    @GeneratedValue
+    @Column(name = "ID_Conducteur")
     private Long idConducteur;
 
-    @Column(name = "CIN")
-    private String cin;
+    @Column(name = "Username")
+    private String username;
+
+    @Column(name = "Password")
+    private String password;
+
+    @Column(name = "Is_Active")
+    private boolean isActive;
 
     @Column(name = "Nom")
     private String nom;
@@ -28,21 +34,18 @@ public class Conducteur extends Account {
     @Column(name = "Prenom")
     private String prenom;
 
-    @Column(name = "Matricule")
-    private String matricule;
+    @Column(name = "CIN")
+    private String cin;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "DateNaissance")
-    private Date dateOfBirth;
+    @Column(name = "Date_Naissance")
+    private Date dateNaissance;
 
     @Column(name = "PermisNumber")
     private String permisNumber;
 
-    @Column(name = "Disponibilite")
-    private boolean disponibilite;
-
     @OneToMany(mappedBy = "conducteur", cascade = CascadeType.ALL)
-    @OrderBy("dateDelivrance ASC") // Optional: Order by date of issuance
+    @OrderBy("dateDelivrance ASC")
     private Set<PermisType> permisTypes = new HashSet<>();
 
     public void addPermisType(PermisType permisType) {
@@ -50,7 +53,8 @@ public class Conducteur extends Account {
             permisTypes.add(permisType);
             permisType.setConducteur(this);
         } else {
-            System.err.println("The maximum number of PermisType is reached");
+            throw new IllegalStateException("The maximum number of PermisType is reached");
         }
     }
+
 }

@@ -2,7 +2,9 @@ package com.example.gestiontrip.service.impl;
 
 import com.example.gestiontrip.exception.TrajetProgrammerExceptions;
 import com.example.gestiontrip.model.TrajetProgrammer;
+import com.example.gestiontrip.model.Vehicule;
 import com.example.gestiontrip.repository.TrajetProgrammerRepository;
+import com.example.gestiontrip.repository.VehiculeRepository;
 import com.example.gestiontrip.service.TrajetProgrammerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,14 @@ import java.util.Optional;
 @Service
 public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
     private final TrajetProgrammerRepository trajetProgrammerRepository;
+
+    private final VehiculeRepository vehiculeRepository;
     @Autowired
-    public TrajetProgrammerServiceImpl(TrajetProgrammerRepository trajetProgrammerRepository) {
+    public TrajetProgrammerServiceImpl(TrajetProgrammerRepository trajetProgrammerRepository, VehiculeRepository vehiculeRepository) {
         this.trajetProgrammerRepository = trajetProgrammerRepository;
+        this.vehiculeRepository = vehiculeRepository;
     }
+
     @Override
     public List<TrajetProgrammer> getAllTrajetProgrammers() {
         Iterable<TrajetProgrammer> TrajetProgrammersIterable = trajetProgrammerRepository.findAll();
@@ -56,5 +62,23 @@ public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
         else
             throw new TrajetProgrammerExceptions("Unable to delete. TrajetProgrammer not found with ID: " + id);
 
+    }
+    public boolean DisponibleTrajetPlanifier(Long trajetProgrammerId){
+        boolean rule1= false;
+        boolean rule2= false;
+        Optional<TrajetProgrammer> trajet = trajetProgrammerRepository.findById(trajetProgrammerId);
+        if(trajet.isPresent()) {
+            TrajetProgrammer trajetProgrammer=trajet.get();
+            if (trajetProgrammer.getDateArriveePrevue().compareTo(trajetProgrammer.getDateDepart()) > 0) {
+                rule1 = true;
+            }
+            Optional<Vehicule> vehicule = vehiculeRepository.findById(trajetProgrammer.getIdVehicule());
+            if (vehicule.isPresent()){
+                Vehicule vehicule1=vehicule.get();
+                if (vehicule1.getNbPlace() > trajetProgrammer.getNbPassagers())
+                    rule2=true;
+            }
+        }
+        return rule1 && rule2;
     }
 }

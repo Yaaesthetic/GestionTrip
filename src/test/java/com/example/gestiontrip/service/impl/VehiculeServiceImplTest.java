@@ -24,18 +24,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
 class VehiculeServiceImplTest {
-    @Mock
     private VehiculeRepository vehiculeRepository;
 
-    @InjectMocks
     private VehiculeServiceImpl vehiculeService;
 
    /* @Mock
     private ConducteurRepository conducteurRepository;*/
 
-    @Mock
     private ConducteurService conducteurService;
 
     @BeforeEach

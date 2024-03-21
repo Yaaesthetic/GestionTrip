@@ -1,3 +1,4 @@
+/*
 package com.example.gestiontrip.service;
 
 import com.example.gestiontrip.model.Conducteur;
@@ -61,3 +62,4 @@ public class DiponibleService {
     return rule1 && rule2;
     }
 }
+*/
