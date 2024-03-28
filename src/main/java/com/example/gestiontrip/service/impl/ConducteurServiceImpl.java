@@ -34,7 +34,7 @@ public class ConducteurServiceImpl implements ConducteurService {
         if (optionalConducteur.isPresent()) {
             return optionalConducteur.get();
         } else {
-            throw new ConducteurExceptions("Conducteur not found with id: " + id);
+            throw new ConducteurExceptions("Conducteur not found with ID=" + id);
         }
     }
     @Override
@@ -47,13 +47,18 @@ public class ConducteurServiceImpl implements ConducteurService {
             conducteur.setIdConducteur(id);
             return conducteurRepository.save(conducteur);
         } else
-            throw new ConducteurExceptions("Unable to update. Conducteur not found with id: " + id);
+            throw new ConducteurExceptions("Unable to update. Conducteur not found with ID=" + id);
     }
     @Override
-    public void deleteConducteur(Long id) {
-        if (conducteurRepository.existsById(id))
+    public Conducteur deleteConducteur(Long id) {
+        Optional<Conducteur> optionalConducteur = conducteurRepository.findById(id);
+        if (optionalConducteur.isPresent()) {
+            Conducteur deletedConducteur = optionalConducteur.get();
             conducteurRepository.deleteById(id);
-        else
-            throw new ConducteurExceptions("Unable to delete. Conducteur not found with ID: " + id);
+            return deletedConducteur;
+        } else {
+            throw new ConducteurExceptions("Unable to delete. Conducteur not found with ID=" + id);
+        }
     }
+
 }

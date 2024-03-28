@@ -11,5 +11,5 @@ public interface ConducteurService  {
     Conducteur getConducteurById(Long id);
     Conducteur createConducteur(Conducteur conducteur);
     Conducteur updateConducteur(Long id, Conducteur conducteur);
-    void deleteConducteur(Long id);
+    Conducteur deleteConducteur(Long id);
 }

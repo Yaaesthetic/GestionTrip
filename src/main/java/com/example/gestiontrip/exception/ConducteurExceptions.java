@@ -2,6 +2,6 @@ package com.example.gestiontrip.exception;
 
 public class ConducteurExceptions extends RuntimeException {
     public ConducteurExceptions(String s) {
-        super(s);
+        super("Conducteur Exceptions: "+s);
     }
 }

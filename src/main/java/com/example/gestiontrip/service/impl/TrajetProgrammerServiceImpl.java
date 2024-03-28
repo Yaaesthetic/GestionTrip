@@ -1,6 +1,7 @@
 package com.example.gestiontrip.service.impl;
 
 import com.example.gestiontrip.exception.TrajetProgrammerExceptions;
+import com.example.gestiontrip.exception.VehiculeExceptions;
 import com.example.gestiontrip.model.TrajetProgrammer;
 import com.example.gestiontrip.model.Vehicule;
 import com.example.gestiontrip.repository.TrajetProgrammerRepository;
@@ -15,12 +16,15 @@ import java.util.Optional;
 
 @Service
 public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
+
     private final TrajetProgrammerRepository trajetProgrammerRepository;
+    private final DiponibleServiceImpl diponibleServiceImpl;
 
     private final VehiculeRepository vehiculeRepository;
-    @Autowired
-    public TrajetProgrammerServiceImpl(TrajetProgrammerRepository trajetProgrammerRepository, VehiculeRepository vehiculeRepository) {
+@Autowired
+    public TrajetProgrammerServiceImpl(TrajetProgrammerRepository trajetProgrammerRepository, DiponibleServiceImpl diponibleServiceImpl, VehiculeRepository vehiculeRepository) {
         this.trajetProgrammerRepository = trajetProgrammerRepository;
+        this.diponibleServiceImpl = diponibleServiceImpl;
         this.vehiculeRepository = vehiculeRepository;
     }
 
@@ -40,12 +44,53 @@ public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
         if (optionalTrajetProgrammer.isPresent()) {
             return optionalTrajetProgrammer.get();
         } else {
-            throw new TrajetProgrammerExceptions("TrajetProgrammer not found with id: " + id);
+            throw new TrajetProgrammerExceptions("TrajetProgrammer not found with ID=" + id);
         }
     }
     @Override
-    public TrajetProgrammer createTrajetProgrammer(TrajetProgrammer TrajetProgrammer) {
-        return trajetProgrammerRepository.save(TrajetProgrammer);
+    public TrajetProgrammer createTrajetProgrammer(TrajetProgrammer trajetProgrammer)throws  {
+        if (isTrajetDisponible(trajetProgrammer.getIdTrajetProgrammer()))
+            throw new TrajetProgrammerExceptions("Unable to create. TrajetProgrammer not found with ID=" + trajetProgrammer.getIdTrajetProgrammer());
+        if (isVehiculeDisponible(trajetProgrammer.getIdVehicule(),trajetProgrammer.getIdVehicule()))
+            throw new TrajetProgrammerExceptions("Unable to create. TrajetProgrammer not found with ID=" + trajetProgrammer.getIdTrajetProgrammer());
+        return trajetProgrammerRepository.save(trajetProgrammer);
+    }
+    @Override
+    public TrajetProgrammer deleteTrajetProgrammer(Long id) {
+        Optional<TrajetProgrammer> optionalTrajetProgrammer = trajetProgrammerRepository.findById(id);
+        if (optionalTrajetProgrammer.isPresent()) {
+            TrajetProgrammer deletedTrajetProgrammer = optionalTrajetProgrammer.get();
+            trajetProgrammerRepository.deleteById(id);
+            return deletedTrajetProgrammer;
+        } else {
+            throw new TrajetProgrammerExceptions("Unable to delete. TrajetProgrammer not found with ID=" + id);
+        }
+    }
+
+    @Override
+
+    public boolean isTrajetDisponible(Long trajetProgrammerId){
+        Optional<TrajetProgrammer> trajet = trajetProgrammerRepository.findById(trajetProgrammerId);
+        if(trajet.isPresent()) {
+            TrajetProgrammer trajetProgrammer=trajet.get();
+            return diponibleServiceImpl.isDateTrajetValide(trajetProgrammer.getDateArriveePrevue(),trajetProgrammer.getDateDepart());
+        }
+        return false;
+    }
+    @Override
+
+    public boolean isVehiculeDisponible(Long vehiculeId,Long trajetProgrammerId){
+        Optional<TrajetProgrammer> trajetProgrammerOptional = trajetProgrammerRepository.findById(trajetProgrammerId);
+        if(trajetProgrammerOptional.isPresent()) {
+            TrajetProgrammer trajetProgrammer=trajetProgrammerOptional.get();
+            Optional<Vehicule> vehiculeOptional = vehiculeRepository.findById(vehiculeId);
+            if (vehiculeOptional.isPresent()) {
+                Vehicule vehicule = vehiculeOptional.get();
+                if (vehicule.getNbPlace() > trajetProgrammer.getNbPassagers())
+                    return diponibleServiceImpl.isSufficientSeatsAvailable(vehicule.getNbPlace(), trajetProgrammer.getNbPassagers());
+            } else throw new VehiculeExceptions("Vehicule not found with ID=" + vehiculeId);
+        } else throw new TrajetProgrammerExceptions("TrajetProgrammer not found with ID=" + trajetProgrammerId);
+        return false;
     }
     @Override
     public TrajetProgrammer updateTrajetProgrammer(Long id, TrajetProgrammer TrajetProgrammer) {
@@ -53,32 +98,6 @@ public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
             TrajetProgrammer.setIdTrajetProgrammer(id);
             return trajetProgrammerRepository.save(TrajetProgrammer);
         } else
-            throw new TrajetProgrammerExceptions("Unable to update. TrajetProgrammer not found with id: " + id);
-    }
-    @Override
-    public void deleteTrajetProgrammer(Long id) {
-        if (trajetProgrammerRepository.existsById(id))
-            trajetProgrammerRepository.deleteById(id);
-        else
-            throw new TrajetProgrammerExceptions("Unable to delete. TrajetProgrammer not found with ID: " + id);
-
-    }
-    public boolean DisponibleTrajetPlanifier(Long trajetProgrammerId){
-        boolean rule1= false;
-        boolean rule2= false;
-        Optional<TrajetProgrammer> trajet = trajetProgrammerRepository.findById(trajetProgrammerId);
-        if(trajet.isPresent()) {
-            TrajetProgrammer trajetProgrammer=trajet.get();
-            if (trajetProgrammer.getDateArriveePrevue().compareTo(trajetProgrammer.getDateDepart()) > 0) {
-                rule1 = true;
-            }
-            Optional<Vehicule> vehicule = vehiculeRepository.findById(trajetProgrammer.getIdVehicule());
-            if (vehicule.isPresent()){
-                Vehicule vehicule1=vehicule.get();
-                if (vehicule1.getNbPlace() > trajetProgrammer.getNbPassagers())
-                    rule2=true;
-            }
-        }
-        return rule1 && rule2;
+            throw new TrajetProgrammerExceptions("Unable to update. TrajetProgrammer not found with ID=" + id);
     }
 }

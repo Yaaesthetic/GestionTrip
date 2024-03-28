@@ -13,48 +13,60 @@ import java.util.Optional;
 
 @Service
 public class VehiculeServiceImpl implements VehiculeService {
-    private final VehiculeRepository VehiculeRepository;
+    private final VehiculeRepository vehiculeRepository;
+    private final DiponibleServiceImpl diponibleServiceImpl;
+
     @Autowired
-    public VehiculeServiceImpl(VehiculeRepository VehiculeRepository) {
-        this.VehiculeRepository = VehiculeRepository;
+
+    public VehiculeServiceImpl(VehiculeRepository vehiculeRepository, DiponibleServiceImpl diponibleServiceImpl) {
+        this.vehiculeRepository = vehiculeRepository;
+        this.diponibleServiceImpl = diponibleServiceImpl;
     }
+
+
     @Override
     public List<Vehicule> getAllVehicules() {
-        Iterable<Vehicule> VehiculesIterable = VehiculeRepository.findAll();
-        List<Vehicule> VehiculesList = new ArrayList<>();
-        VehiculesIterable.forEach(VehiculesList::add);
-        if (VehiculesList.isEmpty()) {
+        Iterable<Vehicule> vehiculesIterable = vehiculeRepository.findAll();
+        List<Vehicule> vehiculesList = new ArrayList<>();
+        vehiculesIterable.forEach(vehiculesList::add);
+        if (vehiculesList.isEmpty()) {
             throw new VehiculeExceptions("No Vehicules found");
         }
-        return VehiculesList;
+        return vehiculesList;
     }
     @Override
     public Vehicule getVehiculeById(Long id){
-        Optional<Vehicule> optionalVehicule = VehiculeRepository.findById(id);
+        Optional<Vehicule> optionalVehicule = vehiculeRepository.findById(id);
         if (optionalVehicule.isPresent()) {
             return optionalVehicule.get();
         } else {
-            throw new VehiculeExceptions("Vehicule not found with id: " + id);
+            throw new VehiculeExceptions("Vehicule not found with ID=" + id);
         }
     }
     @Override
     public Vehicule createVehicule(Vehicule vehicule) {
-        return VehiculeRepository.save(vehicule);
+            return vehiculeRepository.save(vehicule);
     }
     @Override
     public Vehicule updateVehicule(Long id, Vehicule vehicule) {
-        if (VehiculeRepository.existsById(id)) {
+        if (vehiculeRepository.existsById(id)) {
             vehicule.setIdVehicule(id);
-            return VehiculeRepository.save(vehicule);
+            return vehiculeRepository.save(vehicule);
         } else
-            throw new VehiculeExceptions("Unable to update. Vehicule not found with id: " + id);
+            throw new VehiculeExceptions("Unable to update. Vehicule not found with ID=" + id);
     }
     @Override
-    public void deleteVehicule(Long id) {
-        if (VehiculeRepository.existsById(id))
-            VehiculeRepository.deleteById(id);
-        else
-            throw new VehiculeExceptions("Unable to delete. Vehicule not found with ID: " + id);
-
+    public Vehicule deleteVehicule(Long id) {
+        Optional<Vehicule> optionalVehicule = vehiculeRepository.findById(id);
+        if (optionalVehicule.isPresent()) {
+            Vehicule deletedVehicule = optionalVehicule.get();
+            vehiculeRepository.deleteById(id);
+            return deletedVehicule;
+        } else {
+            throw new VehiculeExceptions("Unable to delete. Vehicule not found with ID=" + id);
+        }
     }
+
+
+
 }

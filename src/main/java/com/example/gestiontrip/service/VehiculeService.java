@@ -11,5 +11,5 @@ public interface VehiculeService {
     Vehicule getVehiculeById(Long id);
     Vehicule createVehicule(Vehicule vehicule);
     Vehicule updateVehicule(Long id, Vehicule vehicule);
-    void deleteVehicule(Long id);
+    Vehicule deleteVehicule(Long id);
 }

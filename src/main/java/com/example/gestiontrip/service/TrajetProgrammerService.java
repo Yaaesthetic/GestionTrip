@@ -13,5 +13,7 @@ public interface TrajetProgrammerService {
     TrajetProgrammer getTrajetProgrammerById(Long id);
     TrajetProgrammer createTrajetProgrammer(TrajetProgrammer trajetProgrammer);
     TrajetProgrammer updateTrajetProgrammer(Long id, TrajetProgrammer trajetProgrammer);
-    void deleteTrajetProgrammer(Long id);
+    TrajetProgrammer deleteTrajetProgrammer(Long id);
+    public boolean isVehiculeDisponible(Long vehiculeId,Long trajetProgrammerId);
+    public boolean isTrajetDisponible(Long trajetProgrammerId);
 }

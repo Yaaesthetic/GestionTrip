@@ -26,19 +26,15 @@ public class Vehicule {
 
     @Column(name = "Modele")
     private String modele;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "TypeVehicule")
-    private String typeVehicule;
+    private PermisType.Type  typeVehicule;
 
     @Column(name = "Kilometrage")
     private int kilometrage;
 
     @Column(name = "Disponibilite")
-    private boolean disponibilite;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "TypePermisRequis")
-    private PermisType.Type typePermisRequis;
+    private boolean disponibilite = false;
 
     @Column(name = "NbPlace")
     private short nbPlace;
