@@ -48,7 +48,7 @@ public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
         }
     }
     @Override
-    public TrajetProgrammer createTrajetProgrammer(TrajetProgrammer trajetProgrammer)throws  {
+    public TrajetProgrammer createTrajetProgrammer(TrajetProgrammer trajetProgrammer) {
         if (isTrajetDisponible(trajetProgrammer.getIdTrajetProgrammer()))
             throw new TrajetProgrammerExceptions("Unable to create. TrajetProgrammer not found with ID=" + trajetProgrammer.getIdTrajetProgrammer());
         if (isVehiculeDisponible(trajetProgrammer.getIdVehicule(),trajetProgrammer.getIdVehicule()))
