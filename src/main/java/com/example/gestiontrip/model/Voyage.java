@@ -20,6 +20,7 @@ public class Voyage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id_Voyage")
     private long idVoyage;
+    private long TrajetProgrammer;
 
     @Column(name = "Date_Arrivee_Reelle")
     private LocalDate dateArriveeReelle;

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "Gestionnaire")
 @Data
-@Builder
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class Gestionnaire {
