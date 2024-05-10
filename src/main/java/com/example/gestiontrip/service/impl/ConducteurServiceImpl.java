@@ -18,11 +18,12 @@ import java.util.Optional;
 @Service
 public class ConducteurServiceImpl implements ConducteurService {
     private final ConducteurRepository conducteurRepository;
-    private final TrajetProgrammerServiceImpl trajetProgrammerServiceImpl;
+    private final TrajetProgrammerRepository trajetProgrammerRepository;
     @Autowired
-    public ConducteurServiceImpl(ConducteurRepository conducteurRepository, TrajetProgrammerServiceImpl trajetProgrammerServiceImpl) {
+    public ConducteurServiceImpl(ConducteurRepository conducteurRepository,  TrajetProgrammerRepository trajetProgrammerRepository) {
         this.conducteurRepository = conducteurRepository;
-        this.trajetProgrammerServiceImpl = trajetProgrammerServiceImpl;
+        this.trajetProgrammerRepository = trajetProgrammerRepository;
+
     }
     @Override
     public List<Conducteur> getAllConducteurs() {
@@ -68,7 +69,7 @@ public class ConducteurServiceImpl implements ConducteurService {
     }
     @Override
     public boolean isConducteurTimeDisponible(Long conducteurTd, LocalDate firstdate, LocalDate lastdate){
-        List<TrajetProgrammer> trajets = trajetProgrammerServiceImpl.getAllTrajetProgrammers();
+        Iterable<TrajetProgrammer> trajets = trajetProgrammerRepository.findAll();
         for (TrajetProgrammer trajet : trajets) {
             if ((Objects.equals(trajet.getIdConducteur(), conducteurTd))) {
                 if (trajet.getDateDepart().isBefore(lastdate) && trajet.getDateArriveePrevue().isAfter(firstdate)){
