@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -25,8 +26,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class VehiculeServiceImplTest {
+    @Mock
     private VehiculeRepository vehiculeRepository;
 
+    @Mock
     private VehiculeServiceImpl vehiculeService;
 
    /* @Mock
@@ -36,7 +39,7 @@ class VehiculeServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        //MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @AfterEach
@@ -70,8 +73,8 @@ class VehiculeServiceImplTest {
     }
     @Test
     void getAllExistedVehicules() {
-        List<Vehicule> vehiculeList=Arrays.asList(Vehicule.builder().idVehicule(1L).typeVehicule("A").disponibilite(true).immatriculation("abc").kilometrage(123).marque("toyota").modele("supra").nbPlace((short) 123).typePermisRequis(PermisType.Type.C).build(),
-                Vehicule.builder().idVehicule(2L).typeVehicule("B").disponibilite(false).immatriculation("abc").kilometrage(123).marque("toyota").modele("supra").nbPlace((short) 123).typePermisRequis(PermisType.Type.C).build()
+        List<Vehicule> vehiculeList=Arrays.asList(Vehicule.builder().idVehicule(1L).typeVehicule(PermisType.Type.B).disponibilite(true).immatriculation("abc").kilometrage(123).marque("toyota").modele("supra").nbPlace((short) 123).build(),
+                Vehicule.builder().idVehicule(2L).typeVehicule(PermisType.Type.A).disponibilite(false).immatriculation("abc").kilometrage(123).marque("toyota").modele("supra").nbPlace((short) 123).build()
         );
         vehiculeRepository.saveAll(vehiculeList);
 
