@@ -12,7 +12,7 @@ public class DiponibleServiceImpl implements DisponibleService {
         return NbPlace > NbPassagers;
     }
     @Override
-    public boolean isDateTrajetValide( LocalDate dateArriveePrevue, LocalDate dateDepart) {
+    public boolean isDateValide( LocalDate dateArriveePrevue, LocalDate dateDepart) {
         return dateArriveePrevue.isAfter(dateDepart);
     }
 }

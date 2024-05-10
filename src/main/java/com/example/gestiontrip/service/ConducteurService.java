@@ -3,6 +3,7 @@ package com.example.gestiontrip.service;
 import com.example.gestiontrip.model.Conducteur;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -12,4 +13,5 @@ public interface ConducteurService  {
     Conducteur createConducteur(Conducteur conducteur);
     Conducteur updateConducteur(Long id, Conducteur conducteur);
     Conducteur deleteConducteur(Long id);
+    public boolean isConducteurTimeDisponible(Long conducteurTd, LocalDate firstdate, LocalDate lastdate);
 }

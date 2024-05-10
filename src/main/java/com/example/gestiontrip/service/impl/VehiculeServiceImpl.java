@@ -1,26 +1,30 @@
 package com.example.gestiontrip.service.impl;
 
 import com.example.gestiontrip.exception.VehiculeExceptions;
+import com.example.gestiontrip.model.TrajetProgrammer;
 import com.example.gestiontrip.model.Vehicule;
+import com.example.gestiontrip.repository.TrajetProgrammerRepository;
 import com.example.gestiontrip.repository.VehiculeRepository;
 import com.example.gestiontrip.service.VehiculeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class VehiculeServiceImpl implements VehiculeService {
     private final VehiculeRepository vehiculeRepository;
-    private final DiponibleServiceImpl diponibleServiceImpl;
+    private final TrajetProgrammerServiceImpl trajetProgrammerServiceImpl;
 
     @Autowired
 
-    public VehiculeServiceImpl(VehiculeRepository vehiculeRepository, DiponibleServiceImpl diponibleServiceImpl) {
+    public VehiculeServiceImpl(VehiculeRepository vehiculeRepository, TrajetProgrammerServiceImpl trajetProgrammerServiceImpl) {
         this.vehiculeRepository = vehiculeRepository;
-        this.diponibleServiceImpl = diponibleServiceImpl;
+        this.trajetProgrammerServiceImpl = trajetProgrammerServiceImpl;
     }
 
 
@@ -66,7 +70,18 @@ public class VehiculeServiceImpl implements VehiculeService {
             throw new VehiculeExceptions("Unable to delete. Vehicule not found with ID=" + id);
         }
     }
-
+    @Override
+    public boolean isVehiculeTimeDisponible(Long vehiculeId, LocalDate firstdate, LocalDate lastdate){
+        List<TrajetProgrammer> trajets = trajetProgrammerServiceImpl.getAllTrajetProgrammers();
+        for (TrajetProgrammer trajet : trajets) {
+            if ((Objects.equals(trajet.getIdVehicule(), vehiculeId))) {
+                if (trajet.getDateDepart().isBefore(lastdate) && trajet.getDateArriveePrevue().isAfter(firstdate)){
+                    return  false;
+                }
+            }
+        }
+        return true;
+    }
 
 
 }

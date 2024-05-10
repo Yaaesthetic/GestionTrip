@@ -33,4 +33,5 @@ public class TrajetProgrammer {
 
     private boolean status = false;
     private Long idVehicule;
+    private Long idConducteur;
 }

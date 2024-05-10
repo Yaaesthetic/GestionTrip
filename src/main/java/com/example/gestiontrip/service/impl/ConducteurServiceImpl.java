@@ -2,21 +2,27 @@ package com.example.gestiontrip.service.impl;
 
 import com.example.gestiontrip.exception.ConducteurExceptions;
 import com.example.gestiontrip.model.Conducteur;
+import com.example.gestiontrip.model.TrajetProgrammer;
 import com.example.gestiontrip.repository.ConducteurRepository;
+import com.example.gestiontrip.repository.TrajetProgrammerRepository;
 import com.example.gestiontrip.service.ConducteurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class ConducteurServiceImpl implements ConducteurService {
     private final ConducteurRepository conducteurRepository;
+    private final TrajetProgrammerServiceImpl trajetProgrammerServiceImpl;
     @Autowired
-    public ConducteurServiceImpl(ConducteurRepository conducteurRepository) {
+    public ConducteurServiceImpl(ConducteurRepository conducteurRepository, TrajetProgrammerServiceImpl trajetProgrammerServiceImpl) {
         this.conducteurRepository = conducteurRepository;
+        this.trajetProgrammerServiceImpl = trajetProgrammerServiceImpl;
     }
     @Override
     public List<Conducteur> getAllConducteurs() {
@@ -59,6 +65,18 @@ public class ConducteurServiceImpl implements ConducteurService {
         } else {
             throw new ConducteurExceptions("Unable to delete. Conducteur not found with ID=" + id);
         }
+    }
+    @Override
+    public boolean isConducteurTimeDisponible(Long conducteurTd, LocalDate firstdate, LocalDate lastdate){
+        List<TrajetProgrammer> trajets = trajetProgrammerServiceImpl.getAllTrajetProgrammers();
+        for (TrajetProgrammer trajet : trajets) {
+            if ((Objects.equals(trajet.getIdConducteur(), conducteurTd))) {
+                if (trajet.getDateDepart().isBefore(lastdate) && trajet.getDateArriveePrevue().isAfter(firstdate)){
+                    return  false;
+                }
+            }
+        }
+        return true;
     }
 
 }
