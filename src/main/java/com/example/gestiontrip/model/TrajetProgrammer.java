@@ -17,7 +17,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class TrajetProgrammer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long idTrajetProgrammer;
 
     private LocalDate dateDepart;
@@ -27,11 +27,11 @@ public class TrajetProgrammer {
 
     private String depart;
     private String destination;
-    private String typeVehicule;
+    private PermisType.Type typeVehicule;
     private Short nbPassagers;
     private String autresDetails;
-
     private boolean status = false;
+
     private Long idVehicule;
     private Long idConducteur;
 }

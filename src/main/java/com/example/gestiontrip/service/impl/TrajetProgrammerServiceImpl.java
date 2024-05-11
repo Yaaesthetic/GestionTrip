@@ -52,9 +52,14 @@ public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
     }
     @Override
     public TrajetProgrammer createTrajetProgrammer(TrajetProgrammer trajetProgrammer) {
-        if (isTrajetDisponible(trajetProgrammer.getIdTrajetProgrammer()))
+        Iterable<TrajetProgrammer> trajets = trajetProgrammerRepository.findAll();
+        if (!trajets.iterator().hasNext()) {
+            return trajetProgrammerRepository.save(trajetProgrammer);
+        }
+
+        if (!isTrajetDisponible(trajetProgrammer.getIdTrajetProgrammer()))
             throw new TrajetProgrammerExceptions("Unable to create. TrajetProgrammer not found with ID=" + trajetProgrammer.getIdTrajetProgrammer());
-        if (isVehiculeDisponible(trajetProgrammer.getIdVehicule(),trajetProgrammer.getIdVehicule()))
+        if (isVehiculeDisponible(trajetProgrammer.getIdVehicule(),trajetProgrammer))
             throw new TrajetProgrammerExceptions("Unable to create. TrajetProgrammer not found with ID=" + trajetProgrammer.getIdTrajetProgrammer());
         return trajetProgrammerRepository.save(trajetProgrammer);
     }
@@ -81,17 +86,13 @@ public class TrajetProgrammerServiceImpl implements TrajetProgrammerService {
         return false;
     }
     @Override
-    public boolean isVehiculeDisponible(Long vehiculeId,Long trajetProgrammerId){
-        Optional<TrajetProgrammer> trajetProgrammerOptional = trajetProgrammerRepository.findById(trajetProgrammerId);
-        if(trajetProgrammerOptional.isPresent()) {
-            TrajetProgrammer trajetProgrammer=trajetProgrammerOptional.get();
+    public boolean isVehiculeDisponible(Long vehiculeId,TrajetProgrammer trajetProgrammer){
+
             Vehicule vehicule = vehiculeServiceImpl.getVehiculeById(vehiculeId);
 
             return (diponibleServiceImpl.isSufficientSeatsAvailable(vehicule.getNbPlace(), trajetProgrammer.getNbPassagers())
-                    && vehicule.getTypeVehicule().toString().equals(trajetProgrammer.getTypeVehicule())
+                    && vehicule.getTypeVehicule().equals(trajetProgrammer.getTypeVehicule())
                     && vehiculeServiceImpl.isVehiculeTimeDisponible(vehiculeId, trajetProgrammer.getDateDepart(), trajetProgrammer.getDateArriveePrevue()));
-
-        } else throw new TrajetProgrammerExceptions("TrajetProgrammer not found with ID=" + trajetProgrammerId);
     }
     @Override
     public boolean isConducteurDisponible(Long conducteurId,Long trajetProgrammerId){
